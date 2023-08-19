@@ -15,7 +15,7 @@ namespace TimeTaggerClient
 
         public TimeTaggerClient( string server, string apiKey )
         {
-            Server = server;
+            Server = server.EndsWith( '/' ) ? server : $"{server}/";
 
             HttpClient = new HttpClient
             {
@@ -24,7 +24,7 @@ namespace TimeTaggerClient
             HttpClient.DefaultRequestHeaders.Add( "authtoken", apiKey );
         }
 
-        public async Task<IEnumerable<TimeTaggerRecord>> FetchRecords( DateTime? start = null, DateTime? end = null )
+        public async Task<IEnumerable<TimeTaggerRecord>> FetchRecordsAsync( DateTime? start = null, DateTime? end = null )
         {
             var startOffset = new DateTimeOffset( start ?? DateTime.UnixEpoch );
             var endOffset = new DateTimeOffset( end ?? DateTime.MaxValue );
@@ -43,7 +43,7 @@ namespace TimeTaggerClient
             }
         }
 
-        public async Task<IEnumerable<TimeTaggerSetting>> FetchSettings()
+        public async Task<IEnumerable<TimeTaggerSetting>> FetchSettingsAsync()
         {
             var response = await HttpClient.GetAsync( "settings" );
 
@@ -60,7 +60,7 @@ namespace TimeTaggerClient
             }
         }
 
-        public async Task<(DateTime ServerTime, IEnumerable<TimeTaggerRecord> Records, IEnumerable<TimeTaggerSetting> Settings)> FetchNew( DateTime since )
+        public async Task<(DateTime ServerTime, IEnumerable<TimeTaggerRecord> Records, IEnumerable<TimeTaggerSetting> Settings)> FetchNewAsync( DateTime since )
         {
             var sinceOffset = new DateTimeOffset( since );
 
@@ -77,8 +77,8 @@ namespace TimeTaggerClient
 
                 if (isReset)
                 {
-                    records = await FetchRecords();
-                    settings = await FetchSettings();
+                    records = await FetchRecordsAsync();
+                    settings = await FetchSettingsAsync();
                 }
                 else
                 {
@@ -94,7 +94,7 @@ namespace TimeTaggerClient
             }
         }
 
-        public async Task<(IEnumerable<string> AcceptedKeys, IEnumerable<string> RejectedKeys, IEnumerable<string> Errors)> UpdateRecords( IEnumerable<TimeTaggerRecord> records )
+        public async Task<(IEnumerable<string> AcceptedKeys, IEnumerable<string> RejectedKeys, IEnumerable<string> Errors)> UpdateRecordsAsync( IEnumerable<TimeTaggerRecord> records )
         {
             var response = await HttpClient.PutAsync( "records", new StringContent( JsonSerializer.Serialize( records.Select( r => r.ToApiRecord() ) ), Encoding.UTF8, "application/json" ) );
 
@@ -111,15 +111,15 @@ namespace TimeTaggerClient
             }
         }
         
-        public async Task<(IEnumerable<string> AcceptedKeys, IEnumerable<string> RejectedKeys, IEnumerable<string> Errors)> DeleteRecords( IEnumerable<TimeTaggerRecord> records )
+        public async Task<(IEnumerable<string> AcceptedKeys, IEnumerable<string> RejectedKeys, IEnumerable<string> Errors)> DeleteRecordsAsync( IEnumerable<TimeTaggerRecord> records )
         {
             var recordsWithMarker = records.Select( r => r.Description?.StartsWith( "HIDDEN" ) ?? false ? r : r with { Description = $"HIDDEN {r.Description}" } );
 
-            return await UpdateRecords( recordsWithMarker );
+            return await UpdateRecordsAsync( recordsWithMarker );
         }
 
         
-        public async Task<(IEnumerable<string> AcceptedKeys, IEnumerable<string> RejectedKeys, IEnumerable<string> Errors)> UpdateSettings( IEnumerable<TimeTaggerSetting> settings )
+        public async Task<(IEnumerable<string> AcceptedKeys, IEnumerable<string> RejectedKeys, IEnumerable<string> Errors)> UpdateSettingsAsync( IEnumerable<TimeTaggerSetting> settings )
         {
             var response = await HttpClient.PutAsync( "settings", new StringContent( JsonSerializer.Serialize( settings.Select( r => r.ToApiSetting() ) ), Encoding.UTF8, "application/json" ) );
 
