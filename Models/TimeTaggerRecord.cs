@@ -1,12 +1,12 @@
 ﻿namespace TimeTaggerClient.Models
 {
     /// <summary>
-    /// This class represents a TimeTagger record.
+    /// This class represents a TimeTagger record. <paramref name="Start"/> equal to <paramref name="End"/> means that the record is still running.
     /// </summary>
     public record TimeTaggerRecord(
         string Key,
         DateTime Start,
-        DateTime? End = null,
+        DateTime End,
         string? Description = null,
         DateTime? ModifiedTime = null,
         DateTime? ServerTime = null
@@ -30,7 +30,7 @@
         /// <summary>
         /// The duration of the record.
         /// </summary>
-        public TimeSpan Duration => End - Start ?? TimeSpan.MaxValue;
+        public TimeSpan Duration => ((End - Start).TotalMicroseconds < 1000 ? DateTime.Now : End ) - Start;
 
         /// <summary>
         /// The duration of the record in seconds.
@@ -52,7 +52,6 @@
         {
         }
 
-
         /// <summary>
         /// Converts the TimeTagger record to an API record.
         /// </summary>
@@ -62,7 +61,7 @@
             return new ApiRecord(
                 Key,
                 ((DateTimeOffset)Start).ToUnixTimeSeconds(),
-                ((DateTimeOffset)(End ?? DateTime.MaxValue)).ToUnixTimeSeconds(),
+                ((DateTimeOffset)End).ToUnixTimeSeconds(),
                 Description,
                 ((DateTimeOffset)(ModifiedTime ?? DateTime.Now)).ToUnixTimeSeconds(),
                 0

@@ -13,7 +13,7 @@ namespace TimeTaggerClient.Interfaces
         string Server { get; set; }
 
         /// <summary>
-        /// Fetches TimeTagger records. Returns all records that overlap range specified by <paramref name="start"/> and <paramref name="end"/> range.
+        /// Fetches TimeTagger records. Returns all records that overlap range specified by <paramref name="start"/> and <paramref name="end"/> range. Deleted records have <seealso cref="TimeTaggerRecord.Description"/> staring with "HIDDEN".
         /// </summary>
         /// <param name="start">The start time for the TimeTagger records to fetch.</param>
         /// <param name="end">The end time for the TimeTagger records to fetch.</param>
