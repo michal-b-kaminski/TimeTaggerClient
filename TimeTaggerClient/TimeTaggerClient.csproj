@@ -26,4 +26,8 @@
     <None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Include="..\.github\**\*" Pack="false"/>
+	</ItemGroup>
+
 </Project>
