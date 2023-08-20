@@ -37,6 +37,8 @@
         /// </summary>
         public long DurationS => (long)Duration.TotalSeconds;
 
+        public IEnumerable<string> Tags => Description?.Split( ' ' ).Where( e => e.StartsWith( '#' ) ) ?? Array.Empty<string>();
+
         /// <summary>
         /// Initializes a new instance of the TimeTaggerRecord class.
         /// </summary>
