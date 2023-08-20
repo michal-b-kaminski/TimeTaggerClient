@@ -7,8 +7,27 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>TimeTaggerClient</PackageId>
+    <PackageTags>TimeTagger;API;Client;Wrapper</PackageTags>
+    <Description>
+      This client library wraps TimeTagger REST API.
+    </Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\.github\**\*" Pack="false"/>
+	</ItemGroup>
 
 </Project>
