@@ -1,4 +1,4 @@
-name: Upload .NET package
+name: Publish
 
 on:
   release:
