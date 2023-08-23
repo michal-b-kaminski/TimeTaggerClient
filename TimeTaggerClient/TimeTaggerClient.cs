@@ -85,6 +85,7 @@ namespace TimeTaggerClient
         /// <summary>
         /// Fetches new and changed TimeTagger records and settings since a specific datetime.
         /// </summary>
+        /// <remarks>Is based on server time, so client should store most recent <see cref="TimeTaggerRecord.ServerTime"/> and <see cref="TimeTaggerSetting.ServerTime"/> to use as <paramref name="since"/> for next call</remarks>
         /// <param name="since">Fetches TimeTagger records since this datetime.</param>
         /// <returns>List of <see cref="TimeTaggerRecord"/> and <see cref="TimeTaggerSetting"/> added or modified since <paramref name="since"/></returns>
         /// <exception cref="InvalidDataException">Unable to parse server response</exception>

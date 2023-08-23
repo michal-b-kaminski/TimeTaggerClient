@@ -37,6 +37,9 @@
         /// </summary>
         public long DurationS => (long)Duration.TotalSeconds;
 
+        /// <summary>
+        /// List of tags in the description.
+        /// </summary>
         public IEnumerable<string> Tags => Description?.Split( ' ' ).Where( e => e.StartsWith( '#' ) ) ?? Array.Empty<string>();
 
         /// <summary>
