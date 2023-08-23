@@ -24,11 +24,7 @@ jobs:
       - name: Publish the package to GPR
         run: dotnet nuget push TimeTaggerClient/bin/Release/*.nupkg
       - name: Upload package to GitHub Releases
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: AButler/upload-release-assets@v2.0
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: /home/runner/work/TimeTaggerClient/TimeTaggerClient/TimeTaggerClient/bin/Release/*.nupkg
-          asset_name: TimeTaggerClient
-          asset_content_type: application/zip
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          files: 'TimeTaggerClient/bin/Release/*.nupkg'
