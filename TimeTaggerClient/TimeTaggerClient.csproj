@@ -15,6 +15,7 @@
     </Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +28,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\.github\**\*" Pack="false"/>
+		<None Include="..\.github\**\*" Pack="false" />
 	</ItemGroup>
 
 </Project>
